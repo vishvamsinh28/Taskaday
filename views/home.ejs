@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Task Manager</title>
+    <link rel="stylesheet" type="text/css" href="/home.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="main.webp" alt="Logo" />
+        <span class="team-name">Taskaday</span>
+      </div>
+      <% if(currentUser===undefined){ %>
+      <button><a href="/auth">Login and Register</a></button>
+      <% }else{ %>
+      <button><a href="/logout">Logout</a></button>
+      <% } %>
+    </nav>
+    <% if(currentUser!==undefined){ %>
+    <h1>
+      Task Manager of
+      <span style="color: rgb(180, 115, 115); text-decoration: underline"
+        ><%= currentUser %></span
+      >
+    </h1>
+
+    <div class="add-task">
+      <form action="/" method="POST">
+        <input type="text" name="task" placeholder="Add a task" />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+
+    <div class="task-list">
+      <ul>
+        <% for(let work of tasks) { %>
+        <li>
+          <span id="taskText-<%= work.id %>"><%= work.task %></span>
+          <div class="actions">
+            <button onclick="updateTask('<%= work.id %>')">Update</button>
+            <form action="/<%= work.id %>?_method=DELETE" method="POST">
+              <button type="submit">Delete</button>
+            </form>
+          </div>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+    <% }else{ %>
+    <center>
+      <h1>Login or Register to use Task Manager</h1>
+      <img src="lock.png" alt="lock" />
+    </center>
+    <% } %>
+    <script>
+      function updateTask(id) {
+        const taskText = document.querySelector(`#taskText-${id}`).textContent;
+        const updatedTask = prompt("Enter the updated task:", taskText);
+
+        if (updatedTask !== null) {
+          const form = document.createElement("form");
+          form.action = `/${id}?_method=PUT`;
+          form.method = "POST";
+
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = "task";
+          input.value = updatedTask;
+
+          form.appendChild(input);
+          document.body.appendChild(form);
+          form.submit();
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login and Register</title>
+    <link rel="stylesheet" href="/auth.css" />
+  </head>
+  <body>
+    <center>
+      <h2>Login and Register</h2>
+      <form id="loginRegisterForm" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+
+        <div class="buttonBlock">
+          <!-- Button to submit as login -->
+          <button type="button" onclick="submitForm('login')">Login</button>
+
+          <!-- Button to submit as register -->
+          <button type="button" onclick="submitForm('register')">
+            Register
+          </button>
+        </div>
+      </form>
+    </center>
+
+    <script>
+      function submitForm(action) {
+        const form = document.getElementById("loginRegisterForm");
+        if (action === "login") {
+          form.action = "/login"; // Set the action URL for login
+        } else if (action === "register") {
+          form.action = "/register"; // Set the action URL for register
+        }
+        form.submit();
+      }
+    </script>
+  </body>
+</html>
